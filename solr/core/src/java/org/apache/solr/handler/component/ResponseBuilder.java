@@ -31,6 +31,7 @@ import org.apache.solr.request.SolrRequestInfo;
 import org.apache.solr.response.SolrQueryResponse;
 import org.apache.solr.search.CursorMark;
 import org.apache.solr.search.DocListAndSet;
+import org.apache.solr.search.DocSet;
 import org.apache.solr.search.QParser;
 import org.apache.solr.search.SolrIndexSearcher;
 import org.apache.solr.search.SortSpec;
@@ -69,6 +70,7 @@ public class ResponseBuilder
   private String queryString = null;
   private Query query = null;
   private List<Query> filters = null;
+  private DocSet filter = null;
   private SortSpec sortSpec = null;
   private GroupingSpecification groupingSpec;
   private CursorMark cursorMark;
@@ -230,7 +232,7 @@ public class ResponseBuilder
     debugResults = dbg;
     debugTrack = dbg;
   }
-  
+
   public boolean isDebugTrack() {
     return debugTrack;
   }
@@ -285,6 +287,14 @@ public class ResponseBuilder
 
   public void setFilters(List<Query> filters) {
     this.filters = filters;
+  }
+
+  public DocSet getFilter() {
+    return filter;
+  }
+
+  public void setFilter(DocSet filter) {
+    this.filter = filter;
   }
 
   public Query getHighlightQuery() {
@@ -391,6 +401,7 @@ public class ResponseBuilder
     SolrIndexSearcher.QueryCommand cmd = new SolrIndexSearcher.QueryCommand();
     cmd.setQuery(getQuery())
             .setFilterList(getFilters())
+            .setFilter( getFilter())
             .setSort(getSortSpec().getSort())
             .setOffset(getSortSpec().getOffset())
             .setLen(getSortSpec().getCount())
@@ -413,7 +424,7 @@ public class ResponseBuilder
       this.setNextCursorMark(result.getNextCursorMark());
     }
   }
-  
+
   public long getNumberDocumentsFound() {
     if (_responseDocs == null) {
       return 0;
