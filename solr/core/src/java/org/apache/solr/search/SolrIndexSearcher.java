@@ -2263,24 +2263,14 @@ public class SolrIndexSearcher extends IndexSearcher implements Closeable,SolrIn
     }
     
     public List<Query> getFilterList() { return filterList; }
-    /**
-     * @throws IllegalArgumentException if filter is not null.
-     */
     public QueryCommand setFilterList(List<Query> filterList) {
-      if( filter != null ) {
-        throw new IllegalArgumentException( "Either filter or filterList may be set in the QueryCommand, but not both." );
-      }
       this.filterList = filterList;
       return this;
     }
     /**
      * A simple setter to build a filterList from a query
-     * @throws IllegalArgumentException if filter is not null.
      */
     public QueryCommand setFilterList(Query f) {
-      if( filter != null ) {
-        throw new IllegalArgumentException( "Either filter or filterList may be set in the QueryCommand, but not both." );
-      }
       filterList = null;
       if (f != null) {
         filterList = new ArrayList<>(2);
@@ -2290,13 +2280,7 @@ public class SolrIndexSearcher extends IndexSearcher implements Closeable,SolrIn
     }
     
     public DocSet getFilter() { return filter; }
-    /**
-     * @throws IllegalArgumentException if filterList is not null.
-     */
     public QueryCommand setFilter(DocSet filter) {
-      if( filterList != null ) {
-        throw new IllegalArgumentException( "Either filter or filterList may be set in the QueryCommand, but not both." );
-      }
       this.filter = filter;
       return this;
     }
